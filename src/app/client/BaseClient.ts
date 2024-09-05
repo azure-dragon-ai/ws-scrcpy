@@ -3,7 +3,7 @@ import { ParamsBase } from '../../types/ParamsBase';
 import Util from '../Util';
 
 export class BaseClient<P extends ParamsBase, TE extends EventMap> extends TypedEmitter<TE> {
-    protected title = 'BaseClient';
+    protected title = '基础客户端';
     protected params: P;
 
     protected constructor(params: P) {

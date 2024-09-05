@@ -235,11 +235,11 @@ export class DeviceTracker extends BaseDeviceTracker<GoogDeviceDescriptor, never
                     actionButton.onclick = this.onActionButtonClick;
                     if (hasPid) {
                         command = ControlCenterCommand.KILL_SERVER;
-                        actionButton.title = 'Kill server';
+                        actionButton.title = '结束服务';
                         actionButton.appendChild(SvgImage.create(SvgImage.Icon.CANCEL));
                     } else {
                         command = ControlCenterCommand.START_SERVER;
-                        actionButton.title = 'Start server';
+                        actionButton.title = '开始服务';
                         actionButton.appendChild(SvgImage.create(SvgImage.Icon.REFRESH));
                     }
                     actionButton.setAttribute(Attribute.COMMAND, command);
@@ -247,9 +247,9 @@ export class DeviceTracker extends BaseDeviceTracker<GoogDeviceDescriptor, never
                     const timestamp = device['last.update.timestamp'];
                     if (timestamp) {
                         const date = new Date(timestamp);
-                        actionButton.title = `Last update on ${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`;
+                        actionButton.title = `最后更新 ${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`;
                     } else {
-                        actionButton.title = `Not active`;
+                        actionButton.title = `不活跃的`;
                     }
                     actionButton.appendChild(SvgImage.create(SvgImage.Icon.OFFLINE));
                 }
@@ -306,7 +306,7 @@ export class DeviceTracker extends BaseDeviceTracker<GoogDeviceDescriptor, never
                     selectElement.appendChild(adbProxyOption);
                     const actionButton = document.createElement('button');
                     actionButton.className = 'action-button update-interfaces-button active';
-                    actionButton.title = `Update information`;
+                    actionButton.title = `更新信息`;
                     actionButton.appendChild(SvgImage.create(SvgImage.Icon.REFRESH));
                     actionButton.setAttribute(Attribute.UDID, device.udid);
                     actionButton.setAttribute(Attribute.COMMAND, ControlCenterCommand.UPDATE_INTERFACES);

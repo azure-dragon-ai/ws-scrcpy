@@ -260,7 +260,7 @@ export class DevtoolsClient extends ManagerClient<ParamsDevtools, never> {
             bundled.setAttribute('tabIndex', '1');
             bundled.className = 'action copy';
             bundled.innerText = '捆绑';
-            bundled.title = 'Copy link and open manually';
+            bundled.title = '复制链接并手动打开';
             actions.appendChild(bundled);
 
             const base = 'devtools://devtools/bundled/inspector.html?experiments=true&ws=';

@@ -16,7 +16,7 @@ type WorkerMessage = {
 
 export class TinyH264Player extends BaseCanvasBasedPlayer {
     public static readonly storageKeyPrefix = 'Tinyh264Decoder';
-    public static readonly playerFullName = 'Tiny H264';
+    public static readonly playerFullName = '缩小的H264';
     public static readonly playerCodeName = 'tinyh264';
     private static videoStreamId = 1;
     public static readonly preferredVideoSettings: VideoSettings = new VideoSettings({

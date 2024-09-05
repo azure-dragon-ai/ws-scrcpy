@@ -10,7 +10,7 @@ import { DisplayInfo } from '../DisplayInfo';
 
 export class BroadwayPlayer extends BaseCanvasBasedPlayer {
     public static readonly storageKeyPrefix = 'BroadwayDecoder';
-    public static readonly playerFullName = 'Broadway.js';
+    public static readonly playerFullName = '百老汇';
     public static readonly playerCodeName = 'broadway';
     public static readonly preferredVideoSettings: VideoSettings = new VideoSettings({
         lockedVideoOrientation: -1,
