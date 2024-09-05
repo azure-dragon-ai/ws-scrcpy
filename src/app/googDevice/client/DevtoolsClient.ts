@@ -31,7 +31,7 @@ export class DevtoolsClient extends ManagerClient<ParamsDevtools, never> {
         super(params);
         this.udid = this.params.udid;
         this.openNewConnection();
-        this.setTitle(`Devtools ${this.udid}`);
+        this.setTitle(`开发工具 ${this.udid}`);
         this.setBodyClass('devtools');
         this.hiddenInput = document.createElement('input');
         this.hiddenInput.className = 'hidden';

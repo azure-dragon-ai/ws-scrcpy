@@ -59,7 +59,7 @@ export class ConfigureScrcpy extends BaseClient<ParamsStreamScrcpy, ConfigureScr
         this.deviceName = descriptor['ro.product.model'];
         this.TAG = `ConfigureScrcpy[${this.udid}]`;
         this.createStreamReceiver(params);
-        this.setTitle(`${this.deviceName}. Configure stream`);
+        this.setTitle(`${this.deviceName}. 配置视频流`);
         this.background = this.createUI();
     }
 

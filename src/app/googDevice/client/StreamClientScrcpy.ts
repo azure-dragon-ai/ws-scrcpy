@@ -183,7 +183,7 @@ export class StreamClientScrcpy
     public onClientsStats = (stats: ClientsStats): void => {
         this.deviceName = stats.deviceName;
         this.clientId = stats.clientId;
-        this.setTitle(`Stream ${this.deviceName}`);
+        this.setTitle(`视频流 ${this.deviceName}`);
     };
 
     public onDisplayInfo = (infoArray: DisplayCombinedInfo[]): void => {

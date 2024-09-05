@@ -30,7 +30,7 @@ export class StreamClientQVHack extends StreamClient<ParamsStream> {
         }
         this.streamReceiver = new StreamReceiverQVHack({ ...this.params, udid });
         this.startStream();
-        this.setTitle(`${this.udid} stream`);
+        this.setTitle(`${this.udid} 视频流`);
         this.setBodyClass('stream');
     }
 

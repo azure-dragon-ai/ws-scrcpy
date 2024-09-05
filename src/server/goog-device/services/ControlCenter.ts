@@ -142,7 +142,7 @@ export class ControlCenter extends BaseControlCenter<GoogDeviceDescriptor> imple
     }
 
     public getName(): string {
-        return `aDevice Tracker [${os.hostname()}]`;
+        return `好机绘设备列表 [${os.hostname()}]`;
     }
 
     public start(): Promise<void> {

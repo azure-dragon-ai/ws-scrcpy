@@ -29,7 +29,7 @@ export class ShellClient extends ManagerClient<ParamsShell, never> {
         super(params);
         this.udid = params.udid;
         this.openNewConnection();
-        this.setTitle(`Shell ${this.udid}`);
+        this.setTitle(`脚本 ${this.udid}`);
         this.setBodyClass('shell');
         if (!this.ws) {
             throw Error('No WebSocket');
