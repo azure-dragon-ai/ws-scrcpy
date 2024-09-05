@@ -162,7 +162,7 @@ export class DeviceTracker extends BaseDeviceTracker<GoogDeviceDescriptor, never
         const optionElement = document.createElement('option');
         optionElement.setAttribute(Attribute.URL, url);
         optionElement.setAttribute(Attribute.NAME, name);
-        optionElement.innerText = `proxy over adb`;
+        optionElement.innerText = `基于adb的代理`;
         return optionElement;
     }
 

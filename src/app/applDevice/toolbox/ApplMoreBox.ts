@@ -24,7 +24,7 @@ export class ApplMoreBox {
         const input = document.createElement('textarea');
         input.classList.add('text-area');
         const sendButton = document.createElement('button');
-        sendButton.innerText = 'Send as keys';
+        sendButton.innerText = '作为按键发送';
 
         ApplMoreBox.wrap('p', [input, sendButton], moreBox);
         sendButton.onclick = () => {
@@ -40,7 +40,7 @@ export class ApplMoreBox {
         qualityCheck.checked = BasePlayer.DEFAULT_SHOW_QUALITY_STATS;
         qualityCheck.id = qualityId;
         qualityLabel.htmlFor = qualityId;
-        qualityLabel.innerText = 'Show quality stats';
+        qualityLabel.innerText = '显示质量统计';
         ApplMoreBox.wrap('p', [qualityCheck, qualityLabel], moreBox);
         qualityCheck.onchange = () => {
             player.setShowQualityStats(qualityCheck.checked);
@@ -62,7 +62,7 @@ export class ApplMoreBox {
         };
 
         const stopBtn = document.createElement('button') as HTMLButtonElement;
-        stopBtn.innerText = `Disconnect`;
+        stopBtn.innerText = `断开连接`;
         stopBtn.onclick = stop;
 
         ApplMoreBox.wrap('p', [stopBtn], moreBox);

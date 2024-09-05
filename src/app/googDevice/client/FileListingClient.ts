@@ -345,7 +345,7 @@ export class FileListingClient extends ManagerClient<ParamsFileListing, never> i
         this.tableBody.innerHTML = '';
         const header = document.getElementById('header');
         if (header) {
-            header.innerText = `Content ${this.path}`;
+            header.innerText = `内容 ${this.path}`;
         }
         this.toggleQuickLinks(this.path);
 

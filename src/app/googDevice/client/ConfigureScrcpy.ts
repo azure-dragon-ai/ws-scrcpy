@@ -432,7 +432,7 @@ export class ConfigureScrcpy extends BaseClient<ParamsStreamScrcpy, ConfigureScr
         playerWrapper.classList.add('controls');
         const playerLabel = document.createElement('label');
         playerLabel.classList.add('label');
-        playerLabel.innerText = 'Player:';
+        playerLabel.innerText = '播放器:';
         playerWrapper.appendChild(playerLabel);
         const playerSelect = (this.playerSelectElement = document.createElement('select'));
         playerSelect.classList.add('input');
@@ -457,7 +457,7 @@ export class ConfigureScrcpy extends BaseClient<ParamsStreamScrcpy, ConfigureScr
         controls.classList.add('controls', 'control-wrapper');
         const displayIdLabel = document.createElement('label');
         displayIdLabel.classList.add('label');
-        displayIdLabel.innerText = 'Display:';
+        displayIdLabel.innerText = '显示:';
         controls.appendChild(displayIdLabel);
         if (!this.displayIdSelectElement) {
             this.displayIdSelectElement = document.createElement('select');
@@ -479,11 +479,11 @@ export class ConfigureScrcpy extends BaseClient<ParamsStreamScrcpy, ConfigureScr
         });
         this.appendBasicInput(controls, { label: 'I-Frame interval', id: 'iFrameInterval' });
         const fitLabel = document.createElement('label');
-        fitLabel.innerText = 'Fit to screen';
+        fitLabel.innerText = '适应屏幕';
         fitLabel.classList.add('label');
         controls.appendChild(fitLabel);
         const fitToggle = new ToolBoxCheckbox(
-            'Fit to screen',
+            '适应屏幕',
             { off: SvgImage.Icon.TOGGLE_OFF, on: SvgImage.Icon.TOGGLE_ON },
             'fit_to_screen',
         );
@@ -507,7 +507,7 @@ export class ConfigureScrcpy extends BaseClient<ParamsStreamScrcpy, ConfigureScr
 
         const encoderLabel = document.createElement('label');
         encoderLabel.classList.add('label');
-        encoderLabel.innerText = 'Encoder:';
+        encoderLabel.innerText = '编码器:';
         controls.appendChild(encoderLabel);
         if (!this.encoderSelectElement) {
             this.encoderSelectElement = document.createElement('select');
@@ -523,19 +523,19 @@ export class ConfigureScrcpy extends BaseClient<ParamsStreamScrcpy, ConfigureScr
 
         const resetSettingsButton = (this.resetSettingsButton = document.createElement('button'));
         resetSettingsButton.classList.add('button');
-        resetSettingsButton.innerText = 'Reset settings';
+        resetSettingsButton.innerText = '重新设置';
         resetSettingsButton.addEventListener('click', this.resetSettings);
         buttonsWrapper.appendChild(resetSettingsButton);
 
         const loadSettingsButton = (this.loadSettingsButton = document.createElement('button'));
         loadSettingsButton.classList.add('button');
-        loadSettingsButton.innerText = 'Load settings';
+        loadSettingsButton.innerText = '加载设置';
         loadSettingsButton.addEventListener('click', this.loadSettings);
         buttonsWrapper.appendChild(loadSettingsButton);
 
         const saveSettingsButton = (this.saveSettingsButton = document.createElement('button'));
         saveSettingsButton.classList.add('button');
-        saveSettingsButton.innerText = 'Save settings';
+        saveSettingsButton.innerText = '保存设置';
         saveSettingsButton.addEventListener('click', this.saveSettings);
         buttonsWrapper.appendChild(saveSettingsButton);
 
@@ -551,10 +551,10 @@ export class ConfigureScrcpy extends BaseClient<ParamsStreamScrcpy, ConfigureScr
         this.updateStatus();
 
         // const cancelButton = (this.cancelButton = document.createElement('button'));
-        // cancelButton.innerText = 'Cancel';
+        // cancelButton.innerText = '取消';
         // cancelButton.addEventListener('click', this.cancel);
         const okButton = (this.okButton = document.createElement('button'));
-        okButton.innerText = 'Open';
+        okButton.innerText = '打开';
         okButton.disabled = true;
         okButton.addEventListener('click', this.openStream);
         dialogFooter.appendChild(okButton);

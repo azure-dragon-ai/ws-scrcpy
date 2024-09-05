@@ -38,7 +38,7 @@ export class DevtoolsClient extends ManagerClient<ParamsDevtools, never> {
         this.hiddenInput.setAttribute('hidden', 'hidden');
         document.body.appendChild(this.hiddenInput);
         this.tooltip = document.createElement('span');
-        this.tooltip.innerText = 'Copied!';
+        this.tooltip.innerText = '已复制!';
         this.tooltip.className = 'tooltip';
         this.tooltip.style.display = 'none';
         document.body.appendChild(this.tooltip);
@@ -175,7 +175,7 @@ export class DevtoolsClient extends ManagerClient<ParamsDevtools, never> {
         const s = document.createElement('span');
         s.setAttribute('tabIndex', '1');
         s.className = 'action';
-        s.innerText = 'trace';
+        s.innerText = '追踪';
         s.setAttribute('hidden', 'hidden');
         h.appendChild(s);
         const pages = document.createElement('div');
@@ -224,11 +224,11 @@ export class DevtoolsClient extends ManagerClient<ParamsDevtools, never> {
                 const desc = JSON.parse(page.description) as TargetDescription;
                 const position = document.createElement('div');
                 position.className = 'position';
-                position.innerText = `at (${desc.screenX}, ${desc.screenY})`;
+                position.innerText = `位置 (${desc.screenX}, ${desc.screenY})`;
                 sub2.appendChild(position);
                 const size = document.createElement('div');
                 size.className = 'size';
-                size.innerText = `size ${desc.width} × ${desc.height}`;
+                size.innerText = `大小 ${desc.width} × ${desc.height}`;
                 sub2.appendChild(size);
             } catch (error: any) {}
         }
@@ -240,7 +240,7 @@ export class DevtoolsClient extends ManagerClient<ParamsDevtools, never> {
         const inspect = document.createElement('a');
         inspect.setAttribute('tabIndex', '1');
         inspect.className = 'action';
-        inspect.innerText = 'inspect';
+        inspect.innerText = '检查';
         actions.appendChild(inspect);
 
         if (page.devtoolsFrontendUrl) {
@@ -259,7 +259,7 @@ export class DevtoolsClient extends ManagerClient<ParamsDevtools, never> {
             const bundled = document.createElement('a');
             bundled.setAttribute('tabIndex', '1');
             bundled.className = 'action copy';
-            bundled.innerText = 'bundled';
+            bundled.innerText = '捆绑';
             bundled.title = 'Copy link and open manually';
             actions.appendChild(bundled);
 
@@ -288,8 +288,8 @@ export class DevtoolsClient extends ManagerClient<ParamsDevtools, never> {
                 const remote = document.createElement('a');
                 remote.setAttribute('tabIndex', '1');
                 remote.className = 'action copy';
-                remote.innerText = 'remote';
-                remote.title = 'Copy link and open manually';
+                remote.innerText = '远程';
+                remote.title = '复制链接并手动打开';
                 actions.appendChild(remote);
 
                 remote.setAttribute('href', url);
@@ -303,7 +303,7 @@ export class DevtoolsClient extends ManagerClient<ParamsDevtools, never> {
         pause.setAttribute('hidden', 'hidden');
         pause.setAttribute('tabIndex', '1');
         pause.className = 'action';
-        pause.innerText = 'pause';
+        pause.innerText = '暂停';
         actions.appendChild(pause);
         return row;
     }

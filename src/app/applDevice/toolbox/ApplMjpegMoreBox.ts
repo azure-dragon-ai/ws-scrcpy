@@ -33,7 +33,7 @@ export class ApplMjpegMoreBox extends ApplMoreBox {
         const defaultOptions = DefaultMjpegServerOption;
 
         const framerateLabel = document.createElement('label');
-        framerateLabel.innerText = 'Framerate:';
+        framerateLabel.innerText = '帧数:';
         const framerateInput = document.createElement('input');
         framerateInput.placeholder = `1 .. 60`;
         framerateInput.value = `${defaultOptions.mjpegServerFramerate}`;
@@ -41,7 +41,7 @@ export class ApplMjpegMoreBox extends ApplMoreBox {
         this.framerateInput = framerateInput;
 
         const scalingFactorLabel = document.createElement('label');
-        scalingFactorLabel.innerText = 'Scaling factor:';
+        scalingFactorLabel.innerText = '缩放系数:';
         const scalingFactorInput = document.createElement('input');
         scalingFactorInput.placeholder = `1 .. 100`;
         scalingFactorInput.value = `${defaultOptions.mjpegScalingFactor}`;
@@ -51,7 +51,7 @@ export class ApplMjpegMoreBox extends ApplMoreBox {
         this.scalingFactorInput = scalingFactorInput;
 
         const qualityLabel = document.createElement('label');
-        qualityLabel.innerText = 'Quality:';
+        qualityLabel.innerText = '画质:';
         const qualityInput = document.createElement('input');
         qualityInput.placeholder = `1 .. 100`;
         qualityInput.value = `${defaultOptions.mjpegServerScreenshotQuality}`;
