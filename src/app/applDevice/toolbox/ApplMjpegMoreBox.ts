@@ -11,7 +11,7 @@ export class ApplMjpegMoreBox extends ApplMoreBox {
         super(udid, player, wdaConnection);
 
         const action = 'CHANGE_PARAMS';
-        const text = 'Change stream parameters';
+        const text = '更改流参数';
         const playerName = player.getName();
         const spoiler = document.createElement('div');
         const spoilerLabel = document.createElement('label');

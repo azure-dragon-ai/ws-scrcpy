@@ -180,15 +180,15 @@ export class GoogMoreBox {
         const screenPowerModeId = `screen_power_mode_${udid}_${playerName}_${displayId}`;
         const screenPowerModeLabel = document.createElement('label');
         screenPowerModeLabel.style.display = 'none';
-        const labelTextPrefix = 'Mode';
-        const buttonTextPrefix = 'Set screen power mode';
+        const labelTextPrefix = '模式';
+        const buttonTextPrefix = '设置屏幕电源模式';
         const screenPowerModeCheck = document.createElement('input');
         screenPowerModeCheck.type = 'checkbox';
-        let mode = (screenPowerModeCheck.checked = false) ? 'ON' : 'OFF';
+        let mode = (screenPowerModeCheck.checked = false) ? '开启' : '关闭';
         screenPowerModeCheck.id = screenPowerModeLabel.htmlFor = screenPowerModeId;
         screenPowerModeLabel.innerText = `${labelTextPrefix} ${mode}`;
         screenPowerModeCheck.onchange = () => {
-            mode = screenPowerModeCheck.checked ? 'ON' : 'OFF';
+            mode = screenPowerModeCheck.checked ? '开启' : '关闭';
             screenPowerModeLabel.innerText = `${labelTextPrefix} ${mode}`;
             sendScreenPowerModeButton.innerText = `${buttonTextPrefix} ${mode}`;
         };

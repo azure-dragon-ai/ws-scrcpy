@@ -468,16 +468,16 @@ export class ConfigureScrcpy extends BaseClient<ParamsStreamScrcpy, ConfigureScr
         this.displayIdSelectElement.onchange = this.onDisplayIdChange;
 
         this.appendBasicInput(controls, {
-            label: 'Bitrate',
+            label: '码率',
             id: 'bitrate',
             range: { min: 524288, max: 8388608, step: 524288, formatter: Util.prettyBytes },
         });
         this.appendBasicInput(controls, {
-            label: 'Max FPS',
+            label: '最大帧数',
             id: 'maxFps',
             range: { min: 1, max: 60, step: 1 },
         });
-        this.appendBasicInput(controls, { label: 'I-Frame interval', id: 'iFrameInterval' });
+        this.appendBasicInput(controls, { label: '关键帧距', id: 'iFrameInterval' });
         const fitLabel = document.createElement('label');
         fitLabel.innerText = '适应屏幕';
         fitLabel.classList.add('label');
@@ -501,9 +501,9 @@ export class ConfigureScrcpy extends BaseClient<ParamsStreamScrcpy, ConfigureScr
             const element = el.getElement();
             this.onFitToScreenChanged(element.checked);
         });
-        this.appendBasicInput(controls, { label: 'Max width', id: 'maxWidth' });
-        this.appendBasicInput(controls, { label: 'Max height', id: 'maxHeight' });
-        this.appendBasicInput(controls, { label: 'Codec options', id: 'codecOptions' });
+        this.appendBasicInput(controls, { label: '最大宽度', id: 'maxWidth' });
+        this.appendBasicInput(controls, { label: '最大高度', id: 'maxHeight' });
+        this.appendBasicInput(controls, { label: '编解码器选项', id: 'codecOptions' });
 
         const encoderLabel = document.createElement('label');
         encoderLabel.classList.add('label');
