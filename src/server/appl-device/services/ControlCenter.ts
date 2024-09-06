@@ -3,17 +3,17 @@ import { BaseControlCenter } from '../../services/BaseControlCenter';
 import { ControlCenterCommand } from '../../../common/ControlCenterCommand';
 import * as os from 'os';
 import * as crypto from 'crypto';
-import ApplDeviceDescriptor from '../../../types/ApplDeviceDescriptor';
-import { IOSDeviceLib } from 'ios-device-lib';
-import { DeviceState } from '../../../common/DeviceState';
+import ApplHjhDeviceDescriptor from '../../../types/ApplHjhDeviceDescriptor';
+import { IOSHjhDeviceLib } from 'ios-device-lib';
+import { HjhDeviceState } from '../../../common/HjhDeviceState';
 import { ProductType } from '../../../common/ProductType';
 
-export class ControlCenter extends BaseControlCenter<ApplDeviceDescriptor> implements Service {
+export class ControlCenter extends BaseControlCenter<ApplHjhDeviceDescriptor> implements Service {
     private static instance?: ControlCenter;
 
     private initialized = false;
-    private tracker?: IOSDeviceLib.IOSDeviceLib;
-    private descriptors: Map<string, ApplDeviceDescriptor> = new Map();
+    private tracker?: IOSHjhDeviceLib.IOSHjhDeviceLib;
+    private descriptors: Map<string, ApplHjhDeviceDescriptor> = new Map();
     private readonly id: string;
 
     protected constructor() {
@@ -33,7 +33,7 @@ export class ControlCenter extends BaseControlCenter<ApplDeviceDescriptor> imple
         return !!ControlCenter.instance;
     }
 
-    private onDeviceUpdate = (device: IOSDeviceLib.IDeviceActionInfo): void => {
+    private onHjhDeviceUpdate = (device: IOSHjhDeviceLib.IHjhDeviceActionInfo): void => {
         const udid = device.deviceId;
         const state = device.status || '<NoState>';
         const name = device.deviceName || '<NoName>';
@@ -52,14 +52,14 @@ export class ControlCenter extends BaseControlCenter<ApplDeviceDescriptor> imple
         this.emit('device', descriptor);
     };
 
-    private onDeviceLost = (device: IOSDeviceLib.IDeviceActionInfo): void => {
+    private onHjhDeviceLost = (device: IOSHjhDeviceLib.IHjhDeviceActionInfo): void => {
         const udid = device.deviceId;
         const descriptor = this.descriptors.get(udid);
         if (!descriptor) {
             console.warn(`Received "lost" event for unknown device "${udid}"`);
             return;
         }
-        descriptor.state = DeviceState.DISCONNECTED;
+        descriptor.state = HjhDeviceState.DISCONNECTED;
         this.emit('device', descriptor);
     };
 
@@ -71,11 +71,11 @@ export class ControlCenter extends BaseControlCenter<ApplDeviceDescriptor> imple
         this.initialized = true;
     }
 
-    private async startTracker(): Promise<IOSDeviceLib.IOSDeviceLib> {
+    private async startTracker(): Promise<IOSHjhDeviceLib.IOSHjhDeviceLib> {
         if (this.tracker) {
             return this.tracker;
         }
-        this.tracker = new IOSDeviceLib(this.onDeviceUpdate, this.onDeviceUpdate, this.onDeviceLost);
+        this.tracker = new IOSHjhDeviceLib(this.onHjhDeviceUpdate, this.onHjhDeviceUpdate, this.onHjhDeviceLost);
         return this.tracker;
     }
 
@@ -88,7 +88,7 @@ export class ControlCenter extends BaseControlCenter<ApplDeviceDescriptor> imple
         this.initialized = false;
     }
 
-    public getDevices(): ApplDeviceDescriptor[] {
+    public getHjhDevices(): ApplHjhDeviceDescriptor[] {
         return Array.from(this.descriptors.values());
     }
 
@@ -97,7 +97,7 @@ export class ControlCenter extends BaseControlCenter<ApplDeviceDescriptor> imple
     }
 
     public getName(): string {
-        return `iDevice Tracker [${os.hostname()}]`;
+        return `iHjhDevice Tracker [${os.hostname()}]`;
     }
 
     public start(): Promise<void> {
@@ -114,7 +114,7 @@ export class ControlCenter extends BaseControlCenter<ApplDeviceDescriptor> imple
         const udid = command.getUdid();
         const device = this.descriptors.get(udid);
         if (!device) {
-            console.error(`Device with udid:"${udid}" not found`);
+            console.error(`HjhDevice with udid:"${udid}" not found`);
             return;
         }
         const type = command.getType();

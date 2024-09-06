@@ -1,19 +1,19 @@
 import { ManagerClient } from './ManagerClient';
 import { Message } from '../../types/Message';
-import { BaseDeviceDescriptor } from '../../types/BaseDeviceDescriptor';
-import { DeviceTrackerEvent } from '../../types/DeviceTrackerEvent';
-import { DeviceTrackerEventList } from '../../types/DeviceTrackerEventList';
+import { BaseHjhDeviceDescriptor } from '../../types/BaseHjhDeviceDescriptor';
+import { HjhDeviceTrackerEvent } from '../../types/HjhDeviceTrackerEvent';
+import { HjhDeviceTrackerEventList } from '../../types/HjhDeviceTrackerEventList';
 import { html } from '../ui/HtmlTag';
-import { ParamsDeviceTracker } from '../../types/ParamsDeviceTracker';
+import { ParamsHjhDeviceTracker } from '../../types/ParamsHjhDeviceTracker';
 import { HostItem } from '../../types/Configuration';
 import { Tool } from './Tool';
 import Util from '../Util';
 import { EventMap } from '../../common/TypedEmitter';
 
-const TAG = '[BaseDeviceTracker]';
+const TAG = '[BaseHjhDeviceTracker]';
 
-export abstract class BaseDeviceTracker<DD extends BaseDeviceDescriptor, TE extends EventMap> extends ManagerClient<
-    ParamsDeviceTracker,
+export abstract class BaseHjhDeviceTracker<DD extends BaseHjhDeviceDescriptor, TE extends EventMap> extends ManagerClient<
+    ParamsHjhDeviceTracker,
     TE
 > {
     public static readonly ACTION_LIST = 'devicelist';
@@ -47,7 +47,7 @@ export abstract class BaseDeviceTracker<DD extends BaseDeviceDescriptor, TE exte
         return wsUrl;
     }
 
-    public static buildLink(q: any, text: string, params: ParamsDeviceTracker): HTMLAnchorElement {
+    public static buildLink(q: any, text: string, params: ParamsHjhDeviceTracker): HTMLAnchorElement {
         let { hostname } = params;
         let port: string | number | undefined = params.port;
         let pathname = params.pathname ?? location.pathname;
@@ -82,15 +82,15 @@ export abstract class BaseDeviceTracker<DD extends BaseDeviceDescriptor, TE exte
     private created = false;
     private messageId = 0;
 
-    protected constructor(params: ParamsDeviceTracker, protected readonly directUrl: string) {
+    protected constructor(params: ParamsHjhDeviceTracker, protected readonly directUrl: string) {
         super(params);
-        this.elementId = `tracker_instance${++BaseDeviceTracker.instanceId}`;
+        this.elementId = `tracker_instance${++BaseHjhDeviceTracker.instanceId}`;
         this.trackerName = `Unavailable. Host: ${params.hostname}, type: ${params.type}`;
         this.setBodyClass('list');
         this.setTitle();
     }
 
-    public static parseParameters(params: URLSearchParams): ParamsDeviceTracker {
+    public static parseParameters(params: URLSearchParams): ParamsHjhDeviceTracker {
         const typedParams = super.parseParameters(params);
         const type = Util.parseString(params, 'type', true);
         if (type !== 'android' && type !== 'ios') {
@@ -103,14 +103,14 @@ export abstract class BaseDeviceTracker<DD extends BaseDeviceDescriptor, TE exte
         return ++this.messageId;
     }
 
-    protected buildDeviceTable(): void {
+    protected buildHjhDeviceTable(): void {
         const data = this.descriptors;
         const devices = this.getOrCreateTableHolder();
         const tbody = this.getOrBuildTableBody(devices);
 
         const block = this.getOrCreateTrackerBlock(tbody, this.trackerName);
         data.forEach((item) => {
-            this.buildDeviceRow(block, item);
+            this.buildHjhDeviceRow(block, item);
         });
     }
 
@@ -145,7 +145,7 @@ export abstract class BaseDeviceTracker<DD extends BaseDeviceDescriptor, TE exte
         return el;
     }
 
-    protected abstract buildDeviceRow(tbody: Element, device: DD): void;
+    protected abstract buildHjhDeviceRow(tbody: Element, device: DD): void;
 
     protected onSocketClose(event: CloseEvent): void {
         if (this.destroyed) {
@@ -167,18 +167,18 @@ export abstract class BaseDeviceTracker<DD extends BaseDeviceDescriptor, TE exte
             return;
         }
         switch (message.type) {
-            case BaseDeviceTracker.ACTION_LIST: {
-                const event = message.data as DeviceTrackerEventList<DD>;
+            case BaseHjhDeviceTracker.ACTION_LIST: {
+                const event = message.data as HjhDeviceTrackerEventList<DD>;
                 this.descriptors = event.list;
                 this.setIdAndHostName(event.id, event.name);
-                this.buildDeviceTable();
+                this.buildHjhDeviceTable();
                 break;
             }
-            case BaseDeviceTracker.ACTION_DEVICE: {
-                const event = message.data as DeviceTrackerEvent<DD>;
+            case BaseHjhDeviceTracker.ACTION_DEVICE: {
+                const event = message.data as HjhDeviceTrackerEvent<DD>;
                 this.setIdAndHostName(event.id, event.name);
                 this.updateDescriptor(event.device);
-                this.buildDeviceTable();
+                this.buildHjhDeviceTable();
                 break;
             }
             default:
@@ -196,7 +196,7 @@ export abstract class BaseDeviceTracker<DD extends BaseDeviceDescriptor, TE exte
     }
 
     protected getOrCreateTableHolder(): HTMLElement {
-        const id = BaseDeviceTracker.HOLDER_ELEMENT_ID;
+        const id = BaseHjhDeviceTracker.HOLDER_ELEMENT_ID;
         let devices = document.getElementById(id);
         if (!devices) {
             devices = document.createElement('div');
@@ -221,7 +221,7 @@ export abstract class BaseDeviceTracker<DD extends BaseDeviceDescriptor, TE exte
     protected getOrBuildTableBody(parent: HTMLElement): Element {
         const className = 'device-list';
         let tbody = document.querySelector(
-            `#${BaseDeviceTracker.HOLDER_ELEMENT_ID} #${this.tableId}.${className}`,
+            `#${BaseHjhDeviceTracker.HOLDER_ELEMENT_ID} #${this.tableId}.${className}`,
         ) as Element;
         if (!tbody) {
             const fragment = html`<div id="${this.tableId}" class="${className}"></div>`.content;
@@ -255,7 +255,7 @@ export abstract class BaseDeviceTracker<DD extends BaseDeviceDescriptor, TE exte
                 }
             }
         }
-        const holder = document.getElementById(BaseDeviceTracker.HOLDER_ELEMENT_ID);
+        const holder = document.getElementById(BaseHjhDeviceTracker.HOLDER_ELEMENT_ID);
         if (holder && !holder.children.length) {
             holder.remove();
         }

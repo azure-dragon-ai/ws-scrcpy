@@ -43,10 +43,10 @@ export class Stats {
     private checkModeProperty(property: number): boolean {
         return (this.mode & Stats.S_IFMT) === property;
     }
-    public isBlockDevice(): boolean {
+    public isBlockHjhDevice(): boolean {
         return this.checkModeProperty(Stats.S_IFBLK);
     }
-    public isCharacterDevice(): boolean {
+    public isCharacterHjhDevice(): boolean {
         return this.checkModeProperty(Stats.S_IFCHR);
     }
     public isDirectory(): boolean {

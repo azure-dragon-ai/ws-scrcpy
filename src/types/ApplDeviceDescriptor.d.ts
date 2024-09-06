@@ -1,6 +1,6 @@
-import { BaseDeviceDescriptor } from './BaseDeviceDescriptor';
+import { BaseHjhDeviceDescriptor } from './BaseHjhDeviceDescriptor';
 
-export default interface ApplDeviceDescriptor extends BaseDeviceDescriptor {
+export default interface ApplHjhDeviceDescriptor extends BaseHjhDeviceDescriptor {
     name: string;
     model: string;
     version: string;

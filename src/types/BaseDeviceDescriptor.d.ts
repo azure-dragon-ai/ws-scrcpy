@@ -1,4 +1,4 @@
-export interface BaseDeviceDescriptor {
+export interface BaseHjhDeviceDescriptor {
     udid: string;
     state: string;
 }

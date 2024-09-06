@@ -15,7 +15,7 @@ const BUTTONS = [
 ];
 
 export interface StreamClient {
-    getDeviceName(): string;
+    getHjhDeviceName(): string;
 }
 
 export class ApplToolBox extends ToolBox {
@@ -52,7 +52,7 @@ export class ApplToolBox extends ToolBox {
         if (player.supportsScreenshot) {
             const screenshot = new ToolBoxButton('Take screenshot', SvgImage.Icon.CAMERA);
             screenshot.addEventListener('click', () => {
-                player.createScreenshot(client.getDeviceName());
+                player.createScreenshot(client.getHjhDeviceName());
             });
             elements.push(screenshot);
         }

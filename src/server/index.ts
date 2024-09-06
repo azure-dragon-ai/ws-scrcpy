@@ -25,15 +25,15 @@ const config = Config.getInstance();
 /// #if INCLUDE_GOOG
 async function loadGoogModules() {
     const { ControlCenter } = await import('./goog-device/services/ControlCenter');
-    const { DeviceTracker } = await import('./goog-device/mw/DeviceTracker');
+    const { HjhDeviceTracker } = await import('./goog-device/mw/HjhDeviceTracker');
     const { WebsocketProxyOverAdb } = await import('./goog-device/mw/WebsocketProxyOverAdb');
 
     if (config.runLocalGoogTracker) {
-        mw2List.push(DeviceTracker);
+        mw2List.push(HjhDeviceTracker);
     }
 
     if (config.announceLocalGoogTracker) {
-        HostTracker.registerLocalTracker(DeviceTracker);
+        HostTracker.registerLocalTracker(HjhDeviceTracker);
     }
 
     servicesToStart.push(ControlCenter);
@@ -61,7 +61,7 @@ loadPlatformModulesPromises.push(loadGoogModules());
 /// #if INCLUDE_APPL
 async function loadApplModules() {
     const { ControlCenter } = await import('./appl-device/services/ControlCenter');
-    const { DeviceTracker } = await import('./appl-device/mw/DeviceTracker');
+    const { HjhDeviceTracker } = await import('./appl-device/mw/HjhDeviceTracker');
     const { WebDriverAgentProxy } = await import('./appl-device/mw/WebDriverAgentProxy');
 
     // Hack to reduce log-level of appium libs
@@ -71,11 +71,11 @@ async function loadApplModules() {
     (global as any)._global_npmlog = npmlog;
 
     if (config.runLocalApplTracker) {
-        mw2List.push(DeviceTracker);
+        mw2List.push(HjhDeviceTracker);
     }
 
     if (config.announceLocalApplTracker) {
-        HostTracker.registerLocalTracker(DeviceTracker);
+        HostTracker.registerLocalTracker(HjhDeviceTracker);
     }
 
     servicesToStart.push(ControlCenter);

@@ -1,4 +1,4 @@
-export class DeviceSettings {
+export class HjhDeviceSettings {
     constructor(
         defaultSettings: Record<string, any>,
         onSettingsUpdate?: (name: string, newValue: any, oldValue: any) => Promise<void>,

@@ -13,22 +13,22 @@ import DragAndPushLogger from '../DragAndPushLogger';
 import { KeyEventListener, KeyInputHandler } from '../KeyInputHandler';
 import { KeyCodeControlMessage } from '../../controlMessage/KeyCodeControlMessage';
 import { BasePlayer, PlayerClass } from '../../player/BasePlayer';
-import GoogDeviceDescriptor from '../../../types/GoogDeviceDescriptor';
+import GoogHjhDeviceDescriptor from '../../../types/GoogHjhDeviceDescriptor';
 import { ConfigureScrcpy } from './ConfigureScrcpy';
-import { DeviceTracker } from './DeviceTracker';
+import { HjhDeviceTracker } from './HjhDeviceTracker';
 import { ControlCenterCommand } from '../../../common/ControlCenterCommand';
 import { html } from '../../ui/HtmlTag';
 import {
     FeaturedInteractionHandler,
     InteractionHandlerListener,
 } from '../../interactionHandler/FeaturedInteractionHandler';
-import DeviceMessage from '../DeviceMessage';
+import HjhDeviceMessage from '../HjhDeviceMessage';
 import { DisplayInfo } from '../../DisplayInfo';
 import { Attribute } from '../../Attribute';
 import { HostTracker } from '../../client/HostTracker';
 import { ACTION } from '../../../common/Action';
 import { StreamReceiverScrcpy } from './StreamReceiverScrcpy';
-import { ParamsDeviceTracker } from '../../../types/ParamsDeviceTracker';
+import { ParamsHjhDeviceTracker } from '../../../types/ParamsHjhDeviceTracker';
 import { ScrcpyFilePushStream } from '../filePush/ScrcpyFilePushStream';
 
 type StartParams = {
@@ -161,9 +161,9 @@ export class StreamClientScrcpy
         };
     }
 
-    public OnDeviceMessage = (message: DeviceMessage): void => {
+    public OnHjhDeviceMessage = (message: HjhDeviceMessage): void => {
         if (this.moreBox) {
-            this.moreBox.OnDeviceMessage(message);
+            this.moreBox.OnHjhDeviceMessage(message);
         }
     };
 
@@ -249,7 +249,7 @@ export class StreamClientScrcpy
     };
 
     public onDisconnected = (): void => {
-        this.streamReceiver.off('deviceMessage', this.OnDeviceMessage);
+        this.streamReceiver.off('deviceMessage', this.OnHjhDeviceMessage);
         this.streamReceiver.off('video', this.onVideo);
         this.streamReceiver.off('clientsStats', this.onClientsStats);
         this.streamReceiver.off('displayInfo', this.onDisplayInfo);
@@ -339,7 +339,7 @@ export class StreamClientScrcpy
         this.filePushHandler.addEventListener(logger);
 
         const streamReceiver = this.streamReceiver;
-        streamReceiver.on('deviceMessage', this.OnDeviceMessage);
+        streamReceiver.on('deviceMessage', this.OnHjhDeviceMessage);
         streamReceiver.on('video', this.onVideo);
         streamReceiver.on('clientsStats', this.onClientsStats);
         streamReceiver.on('displayInfo', this.onDisplayInfo);
@@ -351,7 +351,7 @@ export class StreamClientScrcpy
         this.streamReceiver.sendEvent(message);
     }
 
-    public getDeviceName(): string {
+    public getHjhDeviceName(): string {
         return this.deviceName;
     }
 
@@ -409,11 +409,11 @@ export class StreamClientScrcpy
         }
     }
 
-    public static createEntryForDeviceList(
-        descriptor: GoogDeviceDescriptor,
+    public static createEntryForHjhDeviceList(
+        descriptor: GoogHjhDeviceDescriptor,
         blockClass: string,
         fullName: string,
-        params: ParamsDeviceTracker,
+        params: ParamsHjhDeviceTracker,
     ): HTMLElement | DocumentFragment | undefined {
         const hasPid = descriptor.pid !== -1;
         if (hasPid) {
@@ -456,7 +456,7 @@ export class StreamClientScrcpy
         if (typeof port !== 'number') {
             throw Error(`Invalid port type: ${typeof port}`);
         }
-        const tracker = DeviceTracker.getInstance({
+        const tracker = HjhDeviceTracker.getInstance({
             type: 'android',
             secure,
             hostname,
@@ -469,7 +469,7 @@ export class StreamClientScrcpy
             return;
         }
         event.preventDefault();
-        const elements = document.getElementsByName(`${DeviceTracker.AttributePrefixInterfaceSelectFor}${fullName}`);
+        const elements = document.getElementsByName(`${HjhDeviceTracker.AttributePrefixInterfaceSelectFor}${fullName}`);
         if (!elements || !elements.length) {
             return;
         }

@@ -6,10 +6,10 @@ import { FitAddon } from 'xterm-addon-fit';
 import { MessageXtermClient } from '../../../types/MessageXtermClient';
 import { ACTION } from '../../../common/Action';
 import { ParamsShell } from '../../../types/ParamsShell';
-import GoogDeviceDescriptor from '../../../types/GoogDeviceDescriptor';
-import { BaseDeviceTracker } from '../../client/BaseDeviceTracker';
+import GoogHjhDeviceDescriptor from '../../../types/GoogHjhDeviceDescriptor';
+import { BaseHjhDeviceTracker } from '../../client/BaseHjhDeviceTracker';
 import Util from '../../Util';
-import { ParamsDeviceTracker } from '../../../types/ParamsDeviceTracker';
+import { ParamsHjhDeviceTracker } from '../../../types/ParamsHjhDeviceTracker';
 import { ChannelCode } from '../../../common/ChannelCode';
 
 const TAG = '[ShellClient]';
@@ -114,10 +114,10 @@ export class ShellClient extends ManagerClient<ParamsShell, never> {
         this.fitAddon.fit();
     }
 
-    public static createEntryForDeviceList(
-        descriptor: GoogDeviceDescriptor,
+    public static createEntryForHjhDeviceList(
+        descriptor: GoogHjhDeviceDescriptor,
         blockClass: string,
-        params: ParamsDeviceTracker,
+        params: ParamsHjhDeviceTracker,
     ): HTMLElement | DocumentFragment | undefined {
         if (descriptor.state !== 'device') {
             return;
@@ -125,7 +125,7 @@ export class ShellClient extends ManagerClient<ParamsShell, never> {
         const entry = document.createElement('div');
         entry.classList.add('shell', blockClass);
         entry.appendChild(
-            BaseDeviceTracker.buildLink(
+            BaseHjhDeviceTracker.buildLink(
                 {
                     action: ACTION.SHELL,
                     udid: descriptor.udid,

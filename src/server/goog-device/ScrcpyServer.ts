@@ -1,7 +1,7 @@
 import '../../../vendor/Genymobile/scrcpy/scrcpy-server.jar';
 import '../../../vendor/Genymobile/scrcpy/LICENSE';
 
-import { Device } from './Device';
+import { HjhDevice } from './HjhDevice';
 import { ARGS_STRING, SERVER_PACKAGE, SERVER_PROCESS_NAME, SERVER_VERSION } from '../../common/Constants';
 import path from 'path';
 import PushTransfer from '@dead50f7/adbkit/lib/adb/sync/pushtransfer';
@@ -16,7 +16,7 @@ type WaitForPidParams = { tryCounter: number; processExited: boolean; lookPidFil
 
 export class ScrcpyServer {
     private static PID_FILE_PATH = '/data/local/tmp/ws_scrcpy.pid';
-    private static async copyServer(device: Device): Promise<PushTransfer> {
+    private static async copyServer(device: HjhDevice): Promise<PushTransfer> {
         const src = path.join(FILE_DIR, FILE_NAME);
         const dst = TEMP_PATH + FILE_NAME; // don't use path.join(): will not work on win host
         return device.push(src, dst);
@@ -25,7 +25,7 @@ export class ScrcpyServer {
     // Important to notice that we first try to read PID from file.
     // Checking with `.getServerPid()` will return process id, but process may stop.
     // PID file only created after WebSocket server has been successfully started.
-    private static async waitForServerPid(device: Device, params: WaitForPidParams): Promise<number[] | undefined> {
+    private static async waitForServerPid(device: HjhDevice, params: WaitForPidParams): Promise<number[] | undefined> {
         const { tryCounter, processExited, lookPidFile } = params;
         if (processExited) {
             return;
@@ -61,7 +61,7 @@ export class ScrcpyServer {
         });
     }
 
-    public static async getServerPid(device: Device): Promise<number[] | undefined> {
+    public static async getServerPid(device: HjhDevice): Promise<number[] | undefined> {
         if (!device.isConnected()) {
             return;
         }
@@ -108,7 +108,7 @@ export class ScrcpyServer {
         return serverPid;
     }
 
-    public static async run(device: Device): Promise<number[] | undefined> {
+    public static async run(device: HjhDevice): Promise<number[] | undefined> {
         if (!device.isConnected()) {
             return;
         }

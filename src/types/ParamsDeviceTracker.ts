@@ -1,5 +1,5 @@
 import { ParamsBase } from './ParamsBase';
 
-export interface ParamsDeviceTracker extends ParamsBase {
+export interface ParamsHjhDeviceTracker extends ParamsBase {
     type: 'android' | 'ios';
 }

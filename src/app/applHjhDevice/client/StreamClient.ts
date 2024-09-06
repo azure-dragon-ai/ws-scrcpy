@@ -9,9 +9,9 @@ import { ApplMoreBox } from '../toolbox/ApplMoreBox';
 import { ApplToolBox } from '../toolbox/ApplToolBox';
 import Size from '../../Size';
 import Util from '../../Util';
-import ApplDeviceDescriptor from '../../../types/ApplDeviceDescriptor';
-import { ParamsDeviceTracker } from '../../../types/ParamsDeviceTracker';
-import { DeviceTracker } from './DeviceTracker';
+import ApplHjhDeviceDescriptor from '../../../types/ApplHjhDeviceDescriptor';
+import { ParamsHjhDeviceTracker } from '../../../types/ParamsHjhDeviceTracker';
+import { HjhDeviceTracker } from './HjhDeviceTracker';
 import { WdaStatus } from '../../../common/WdaStatus';
 import { MessageRunWdaResponse } from '../../../types/MessageRunWdaResponse';
 
@@ -57,10 +57,10 @@ export abstract class StreamClient<T extends ParamsStream> extends BaseClient<T,
         return new playerClass(udid);
     }
 
-    public static createEntryForDeviceList(
-        descriptor: ApplDeviceDescriptor,
+    public static createEntryForHjhDeviceList(
+        descriptor: ApplHjhDeviceDescriptor,
         blockClass: string,
-        params: ParamsDeviceTracker,
+        params: ParamsHjhDeviceTracker,
     ): Array<HTMLElement | DocumentFragment | undefined> {
         const entries: Array<HTMLElement | DocumentFragment> = [];
         const players = this.getPlayers();
@@ -68,14 +68,14 @@ export abstract class StreamClient<T extends ParamsStream> extends BaseClient<T,
             const { playerCodeName, playerFullName } = playerClass;
             const playerTd = document.createElement('div');
             playerTd.classList.add(blockClass);
-            playerTd.setAttribute(DeviceTracker.AttributePlayerFullName, encodeURIComponent(playerFullName));
-            playerTd.setAttribute(DeviceTracker.AttributePlayerCodeName, encodeURIComponent(playerCodeName));
+            playerTd.setAttribute(HjhDeviceTracker.AttributePlayerFullName, encodeURIComponent(playerFullName));
+            playerTd.setAttribute(HjhDeviceTracker.AttributePlayerCodeName, encodeURIComponent(playerCodeName));
             const q: any = {
                 action: this.ACTION,
                 player: playerCodeName,
                 udid: descriptor.udid,
             };
-            const link = DeviceTracker.buildLink(q, `Stream (${playerFullName})`, params);
+            const link = HjhDeviceTracker.buildLink(q, `Stream (${playerFullName})`, params);
             playerTd.appendChild(link);
             entries.push(playerTd);
         });
@@ -241,7 +241,7 @@ export abstract class StreamClient<T extends ParamsStream> extends BaseClient<T,
         this.player = player;
     }
 
-    public getDeviceName(): string {
+    public getHjhDeviceName(): string {
         return this.deviceName;
     }
 }

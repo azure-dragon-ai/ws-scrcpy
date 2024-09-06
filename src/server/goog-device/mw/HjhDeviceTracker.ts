@@ -3,14 +3,14 @@ import { Mw, RequestParameters } from '../../mw/Mw';
 import { ControlCenterCommand } from '../../../common/ControlCenterCommand';
 import { ControlCenter } from '../services/ControlCenter';
 import { ACTION } from '../../../common/Action';
-import GoogDeviceDescriptor from '../../../types/GoogDeviceDescriptor';
-import { DeviceTrackerEvent } from '../../../types/DeviceTrackerEvent';
-import { DeviceTrackerEventList } from '../../../types/DeviceTrackerEventList';
+import GoogHjhDeviceDescriptor from '../../../types/GoogHjhDeviceDescriptor';
+import { HjhDeviceTrackerEvent } from '../../../types/HjhDeviceTrackerEvent';
+import { HjhDeviceTrackerEventList } from '../../../types/HjhDeviceTrackerEventList';
 import { Multiplexer } from '../../../packages/multiplexer/Multiplexer';
 import { ChannelCode } from '../../../common/ChannelCode';
 
-export class DeviceTracker extends Mw {
-    public static readonly TAG = 'DeviceTracker';
+export class HjhDeviceTracker extends Mw {
+    public static readonly TAG = 'HjhDeviceTracker';
     public static readonly type = 'android';
     private adt: ControlCenter = ControlCenter.getInstance();
     private readonly id: string;
@@ -19,14 +19,14 @@ export class DeviceTracker extends Mw {
         if (code !== ChannelCode.GTRC) {
             return;
         }
-        return new DeviceTracker(ws);
+        return new HjhDeviceTracker(ws);
     }
 
-    public static processRequest(ws: WS, params: RequestParameters): DeviceTracker | undefined {
+    public static processRequest(ws: WS, params: RequestParameters): HjhDeviceTracker | undefined {
         if (params.action !== ACTION.GOOG_DEVICE_LIST) {
             return;
         }
-        return new DeviceTracker(ws);
+        return new HjhDeviceTracker(ws);
     }
 
     constructor(ws: WS | Multiplexer) {
@@ -36,16 +36,16 @@ export class DeviceTracker extends Mw {
         this.adt
             .init()
             .then(() => {
-                this.adt.on('device', this.sendDeviceMessage);
-                this.buildAndSendMessage(this.adt.getDevices());
+                this.adt.on('device', this.sendHjhDeviceMessage);
+                this.buildAndSendMessage(this.adt.getHjhDevices());
             })
             .catch((error: Error) => {
-                console.error(`[${DeviceTracker.TAG}] Error: ${error.message}`);
+                console.error(`[${HjhDeviceTracker.TAG}] Error: ${error.message}`);
             });
     }
 
-    private sendDeviceMessage = (device: GoogDeviceDescriptor): void => {
-        const data: DeviceTrackerEvent<GoogDeviceDescriptor> = {
+    private sendHjhDeviceMessage = (device: GoogHjhDeviceDescriptor): void => {
+        const data: HjhDeviceTrackerEvent<GoogHjhDeviceDescriptor> = {
             device,
             id: this.id,
             name: this.adt.getName(),
@@ -57,8 +57,8 @@ export class DeviceTracker extends Mw {
         });
     };
 
-    private buildAndSendMessage = (list: GoogDeviceDescriptor[]): void => {
-        const data: DeviceTrackerEventList<GoogDeviceDescriptor> = {
+    private buildAndSendMessage = (list: GoogHjhDeviceDescriptor[]): void => {
+        const data: HjhDeviceTrackerEventList<GoogHjhDeviceDescriptor> = {
             list,
             id: this.id,
             name: this.adt.getName(),
@@ -75,16 +75,16 @@ export class DeviceTracker extends Mw {
         try {
             command = ControlCenterCommand.fromJSON(event.data.toString());
         } catch (error: any) {
-            console.error(`[${DeviceTracker.TAG}], Received message: ${event.data}. Error: ${error?.message}`);
+            console.error(`[${HjhDeviceTracker.TAG}], Received message: ${event.data}. Error: ${error?.message}`);
             return;
         }
         this.adt.runCommand(command).catch((e) => {
-            console.error(`[${DeviceTracker.TAG}], Received message: ${event.data}. Error: ${e.message}`);
+            console.error(`[${HjhDeviceTracker.TAG}], Received message: ${event.data}. Error: ${e.message}`);
         });
     }
 
     public release(): void {
         super.release();
-        this.adt.off('device', this.sendDeviceMessage);
+        this.adt.off('device', this.sendHjhDeviceMessage);
     }
 }

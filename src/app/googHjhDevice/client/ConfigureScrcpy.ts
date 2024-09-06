@@ -1,5 +1,5 @@
 import '../../../style/dialog.css';
-import GoogDeviceDescriptor from '../../../types/GoogDeviceDescriptor';
+import GoogHjhDeviceDescriptor from '../../../types/GoogHjhDeviceDescriptor';
 import { DisplayCombinedInfo } from '../../client/StreamReceiver';
 import VideoSettings from '../../VideoSettings';
 import { StreamClientScrcpy } from './StreamClientScrcpy';
@@ -10,7 +10,7 @@ import { ToolBoxButton } from '../../toolbox/ToolBoxButton';
 import SvgImage from '../../ui/SvgImage';
 import { PlayerClass } from '../../player/BasePlayer';
 import { ToolBoxCheckbox } from '../../toolbox/ToolBoxCheckbox';
-import { DeviceTracker } from './DeviceTracker';
+import { HjhDeviceTracker } from './HjhDeviceTracker';
 import { Attribute } from '../../Attribute';
 import { StreamReceiverScrcpy } from './StreamReceiverScrcpy';
 import { ParamsStreamScrcpy } from '../../../types/ParamsStreamScrcpy';
@@ -51,7 +51,7 @@ export class ConfigureScrcpy extends BaseClient<ParamsStreamScrcpy, ConfigureScr
     private statusText = '';
     private connectionCount = 0;
 
-    constructor(private readonly tracker: DeviceTracker, descriptor: GoogDeviceDescriptor, params: ParamsStreamScrcpy) {
+    constructor(private readonly tracker: HjhDeviceTracker, descriptor: GoogHjhDeviceDescriptor, params: ParamsStreamScrcpy) {
         super(params);
         this.udid = descriptor.udid;
         this.escapedUdid = Util.escapeUdid(this.udid);
@@ -63,7 +63,7 @@ export class ConfigureScrcpy extends BaseClient<ParamsStreamScrcpy, ConfigureScr
         this.background = this.createUI();
     }
 
-    public getTracker(): DeviceTracker {
+    public getTracker(): HjhDeviceTracker {
         return this.tracker;
     }
 

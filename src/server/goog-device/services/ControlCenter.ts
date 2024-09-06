@@ -1,18 +1,18 @@
 import { TrackerChangeSet } from '@dead50f7/adbkit/lib/TrackerChangeSet';
-import { Device } from '../Device';
+import { HjhDevice } from '../HjhDevice';
 import { Service } from '../../services/Service';
 import AdbKitClient from '@dead50f7/adbkit/lib/adb/client';
 import { AdbExtended } from '../adb';
-import GoogDeviceDescriptor from '../../../types/GoogDeviceDescriptor';
+import GoogHjhDeviceDescriptor from '../../../types/GoogHjhDeviceDescriptor';
 import Tracker from '@dead50f7/adbkit/lib/adb/tracker';
 import Timeout = NodeJS.Timeout;
 import { BaseControlCenter } from '../../services/BaseControlCenter';
 import { ControlCenterCommand } from '../../../common/ControlCenterCommand';
 import * as os from 'os';
 import * as crypto from 'crypto';
-import { DeviceState } from '../../../common/DeviceState';
+import { HjhDeviceState } from '../../../common/HjhDeviceState';
 
-export class ControlCenter extends BaseControlCenter<GoogDeviceDescriptor> implements Service {
+export class ControlCenter extends BaseControlCenter<GoogHjhDeviceDescriptor> implements Service {
     private static readonly defaultWaitAfterError = 1000;
     private static instance?: ControlCenter;
 
@@ -21,8 +21,8 @@ export class ControlCenter extends BaseControlCenter<GoogDeviceDescriptor> imple
     private tracker?: Tracker;
     private waitAfterError = 1000;
     private restartTimeoutId?: Timeout;
-    private deviceMap: Map<string, Device> = new Map();
-    private descriptors: Map<string, GoogDeviceDescriptor> = new Map();
+    private deviceMap: Map<string, HjhDevice> = new Map();
+    private descriptors: Map<string, GoogHjhDeviceDescriptor> = new Map();
     private readonly id: string;
 
     protected constructor() {
@@ -46,7 +46,7 @@ export class ControlCenter extends BaseControlCenter<GoogDeviceDescriptor> imple
         if (this.restartTimeoutId) {
             return;
         }
-        console.log(`Device tracker is down. Will try to restart in ${this.waitAfterError}ms`);
+        console.log(`HjhDevice tracker is down. Will try to restart in ${this.waitAfterError}ms`);
         this.restartTimeoutId = setTimeout(() => {
             this.stopTracker();
             this.waitAfterError *= 1.2;
@@ -65,7 +65,7 @@ export class ControlCenter extends BaseControlCenter<GoogDeviceDescriptor> imple
         if (changes.removed.length) {
             for (const item of changes.removed) {
                 const { id } = item;
-                this.handleConnected(id, DeviceState.DISCONNECTED);
+                this.handleConnected(id, HjhDeviceState.DISCONNECTED);
             }
         }
         if (changes.changed.length) {
@@ -76,7 +76,7 @@ export class ControlCenter extends BaseControlCenter<GoogDeviceDescriptor> imple
         }
     };
 
-    private onDeviceUpdate = (device: Device): void => {
+    private onHjhDeviceUpdate = (device: HjhDevice): void => {
         const { udid, descriptor } = device;
         this.descriptors.set(udid, descriptor);
         this.emit('device', descriptor);
@@ -87,8 +87,8 @@ export class ControlCenter extends BaseControlCenter<GoogDeviceDescriptor> imple
         if (device) {
             device.setState(state);
         } else {
-            device = new Device(udid, state);
-            device.on('update', this.onDeviceUpdate);
+            device = new HjhDevice(udid, state);
+            device.on('update', this.onHjhDeviceUpdate);
             this.deviceMap.set(udid, device);
         }
     }
@@ -98,7 +98,7 @@ export class ControlCenter extends BaseControlCenter<GoogDeviceDescriptor> imple
             return;
         }
         this.tracker = await this.startTracker();
-        const list = await this.client.listDevices();
+        const list = await this.client.listHjhDevices();
         list.forEach((device) => {
             const { id, type } = device;
             this.handleConnected(id, type);
@@ -110,7 +110,7 @@ export class ControlCenter extends BaseControlCenter<GoogDeviceDescriptor> imple
         if (this.tracker) {
             return this.tracker;
         }
-        const tracker = await this.client.trackDevices();
+        const tracker = await this.client.trackHjhDevices();
         tracker.on('changeSet', this.onChangeSet);
         tracker.on('end', this.restartTracker);
         tracker.on('error', this.restartTracker);
@@ -129,11 +129,11 @@ export class ControlCenter extends BaseControlCenter<GoogDeviceDescriptor> imple
         this.initialized = false;
     }
 
-    public getDevices(): GoogDeviceDescriptor[] {
+    public getHjhDevices(): GoogHjhDeviceDescriptor[] {
         return Array.from(this.descriptors.values());
     }
 
-    public getDevice(udid: string): Device | undefined {
+    public getHjhDevice(udid: string): HjhDevice | undefined {
         return this.deviceMap.get(udid);
     }
 
@@ -157,9 +157,9 @@ export class ControlCenter extends BaseControlCenter<GoogDeviceDescriptor> imple
 
     public async runCommand(command: ControlCenterCommand): Promise<void> {
         const udid = command.getUdid();
-        const device = this.getDevice(udid);
+        const device = this.getHjhDevice(udid);
         if (!device) {
-            console.error(`Device with udid:"${udid}" not found`);
+            console.error(`HjhDevice with udid:"${udid}" not found`);
             return;
         }
         const type = command.getType();

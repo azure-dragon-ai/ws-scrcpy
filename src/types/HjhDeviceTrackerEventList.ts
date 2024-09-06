@@ -1,4 +1,4 @@
-export type DeviceTrackerEventList<T> = {
+export type HjhDeviceTrackerEventList<T> = {
     name: string;
     id: string;
     list: T[];

@@ -1,12 +1,12 @@
-import { ParamsDeviceTracker } from '../../types/ParamsDeviceTracker';
-import { BaseDeviceDescriptor } from '../../types/BaseDeviceDescriptor';
+import { ParamsHjhDeviceTracker } from '../../types/ParamsHjhDeviceTracker';
+import { BaseHjhDeviceDescriptor } from '../../types/BaseHjhDeviceDescriptor';
 
 type Entry = HTMLElement | DocumentFragment;
 
 export interface Tool {
-    createEntryForDeviceList(
-        descriptor: BaseDeviceDescriptor,
+    createEntryForHjhDeviceList(
+        descriptor: BaseHjhDeviceDescriptor,
         blockClass: string,
-        params: ParamsDeviceTracker,
+        params: ParamsHjhDeviceTracker,
     ): Array<Entry | undefined> | Entry | undefined;
 }

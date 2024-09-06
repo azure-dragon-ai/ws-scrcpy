@@ -4,7 +4,7 @@ import { TextControlMessage } from '../../controlMessage/TextControlMessage';
 import { CommandControlMessage } from '../../controlMessage/CommandControlMessage';
 import { ControlMessage } from '../../controlMessage/ControlMessage';
 import Size from '../../Size';
-import DeviceMessage from '../DeviceMessage';
+import HjhDeviceMessage from '../HjhDeviceMessage';
 import VideoSettings from '../../VideoSettings';
 import { StreamClientScrcpy } from '../client/StreamClientScrcpy';
 
@@ -281,8 +281,8 @@ export class GoogMoreBox {
         this.onVideoSettings(preferredSettings);
     };
 
-    public OnDeviceMessage(ev: DeviceMessage): void {
-        if (ev.type !== DeviceMessage.TYPE_CLIPBOARD) {
+    public OnHjhDeviceMessage(ev: HjhDeviceMessage): void {
+        if (ev.type !== HjhDeviceMessage.TYPE_CLIPBOARD) {
             return;
         }
         this.input.value = ev.getText();

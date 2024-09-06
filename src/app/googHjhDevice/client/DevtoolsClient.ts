@@ -5,9 +5,9 @@ import { ParamsDevtools } from '../../../types/ParamsDevtools';
 import { RemoteDevtoolsCommand } from '../../../types/RemoteDevtoolsCommand';
 import { Message } from '../../../types/Message';
 import { DevtoolsInfo, RemoteBrowserInfo, RemoteTarget, TargetDescription } from '../../../types/RemoteDevtools';
-import GoogDeviceDescriptor from '../../../types/GoogDeviceDescriptor';
-import { BaseDeviceTracker } from '../../client/BaseDeviceTracker';
-import { ParamsDeviceTracker } from '../../../types/ParamsDeviceTracker';
+import GoogHjhDeviceDescriptor from '../../../types/GoogHjhDeviceDescriptor';
+import { BaseHjhDeviceTracker } from '../../client/BaseHjhDeviceTracker';
+import { ParamsHjhDeviceTracker } from '../../../types/ParamsHjhDeviceTracker';
 import Util from '../../Util';
 
 const FRONTEND_RE = /^https?:\/\/chrome-devtools-frontend\.appspot\.com\/serve_rev\/(@.*)/;
@@ -115,13 +115,13 @@ export class DevtoolsClient extends ManagerClient<ParamsDevtools, never> {
         );
     };
 
-    private createDeviceBlock(info: DevtoolsInfo): HTMLDivElement {
+    private createHjhDeviceBlock(info: DevtoolsInfo): HTMLDivElement {
         const d = document.createElement('div');
         d.className = 'device';
         d.id = `device:${info.deviceSerial}`;
         return d;
     }
-    private createDeviceHeader(info: DevtoolsInfo): HTMLDivElement {
+    private createHjhDeviceHeader(info: DevtoolsInfo): HTMLDivElement {
         const h = document.createElement('div');
         h.className = 'device-header';
         const n = document.createElement('div');
@@ -339,8 +339,8 @@ export class DevtoolsClient extends ManagerClient<ParamsDevtools, never> {
 
     public buildList(info: DevtoolsInfo): void {
         // console.log(info);
-        const block = this.createDeviceBlock(info);
-        const header = this.createDeviceHeader(info);
+        const block = this.createHjhDeviceBlock(info);
+        const header = this.createHjhDeviceHeader(info);
         const browsers = this.createBrowsersBlock(info);
         block.appendChild(header);
         block.appendChild(browsers);
@@ -352,10 +352,10 @@ export class DevtoolsClient extends ManagerClient<ParamsDevtools, never> {
         }
     }
 
-    public static createEntryForDeviceList(
-        descriptor: GoogDeviceDescriptor,
+    public static createEntryForHjhDeviceList(
+        descriptor: GoogHjhDeviceDescriptor,
         blockClass: string,
-        params: ParamsDeviceTracker,
+        params: ParamsHjhDeviceTracker,
     ): HTMLElement | DocumentFragment | undefined {
         if (descriptor.state !== 'device') {
             return;
@@ -363,7 +363,7 @@ export class DevtoolsClient extends ManagerClient<ParamsDevtools, never> {
         const entry = document.createElement('div');
         entry.classList.add('devtools', blockClass);
         entry.appendChild(
-            BaseDeviceTracker.buildLink(
+            BaseHjhDeviceTracker.buildLink(
                 {
                     action: ACTION.DEVTOOLS,
                     udid: descriptor.udid,

@@ -1,6 +1,6 @@
 import { ManagerClient } from './ManagerClient';
 import { ControlMessage } from '../controlMessage/ControlMessage';
-import DeviceMessage from '../googDevice/DeviceMessage';
+import HjhDeviceMessage from '../googHjhDevice/HjhDeviceMessage';
 import VideoSettings from '../VideoSettings';
 import ScreenInfo from '../ScreenInfo';
 import Util from '../Util';
@@ -24,7 +24,7 @@ export type DisplayCombinedInfo = {
 
 interface StreamReceiverEvents {
     video: ArrayBuffer;
-    deviceMessage: DeviceMessage;
+    deviceMessage: HjhDeviceMessage;
     displayInfo: DisplayCombinedInfo[];
     clientsStats: ClientsStats;
     encoders: string[];
@@ -138,8 +138,8 @@ export class StreamReceiver<P extends ParamsStream> extends ManagerClient<Params
                     this.handleInitialInfo(event.data);
                     return;
                 }
-                if (StreamReceiver.EqualArrays(magicBytes, DeviceMessage.MAGIC_BYTES_MESSAGE)) {
-                    const message = DeviceMessage.fromBuffer(event.data);
+                if (StreamReceiver.EqualArrays(magicBytes, HjhDeviceMessage.MAGIC_BYTES_MESSAGE)) {
+                    const message = HjhDeviceMessage.fromBuffer(event.data);
                     this.emit('deviceMessage', message);
                     return;
                 }
@@ -177,7 +177,7 @@ export class StreamReceiver<P extends ParamsStream> extends ManagerClient<Params
         return Array.from(this.encodersSet.values());
     }
 
-    public getDeviceName(): string {
+    public getHjhDeviceName(): string {
         return this.deviceName;
     }
 

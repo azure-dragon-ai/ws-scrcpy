@@ -1,10 +1,10 @@
 import '../../../style/filelisting.css';
 import { ParamsFileListing } from '../../../types/ParamsFileListing';
 import { ManagerClient } from '../../client/ManagerClient';
-import GoogDeviceDescriptor from '../../../types/GoogDeviceDescriptor';
-import { BaseDeviceTracker } from '../../client/BaseDeviceTracker';
+import GoogHjhDeviceDescriptor from '../../../types/GoogHjhDeviceDescriptor';
+import { BaseHjhDeviceTracker } from '../../client/BaseHjhDeviceTracker';
 import { ACTION } from '../../../common/Action';
-import { ParamsDeviceTracker } from '../../../types/ParamsDeviceTracker';
+import { ParamsHjhDeviceTracker } from '../../../types/ParamsHjhDeviceTracker';
 import Util from '../../Util';
 import Protocol from '@dead50f7/adbkit/lib/adb/protocol';
 import { Entry } from '../Entry';
@@ -58,10 +58,10 @@ export class FileListingClient extends ManagerClient<ParamsFileListing, never> i
         return new FileListingClient(params);
     }
 
-    public static createEntryForDeviceList(
-        descriptor: GoogDeviceDescriptor,
+    public static createEntryForHjhDeviceList(
+        descriptor: GoogHjhDeviceDescriptor,
         blockClass: string,
-        params: ParamsDeviceTracker,
+        params: ParamsHjhDeviceTracker,
     ): HTMLElement | DocumentFragment | undefined {
         if (descriptor.state !== 'device') {
             return;
@@ -69,7 +69,7 @@ export class FileListingClient extends ManagerClient<ParamsFileListing, never> i
         const entry = document.createElement('div');
         entry.classList.add('file-listing', blockClass);
         entry.appendChild(
-            BaseDeviceTracker.buildLink(
+            BaseHjhDeviceTracker.buildLink(
                 {
                     action: ACTION.FILE_LISTING,
                     udid: descriptor.udid,

@@ -281,11 +281,11 @@ export class AdbUtils {
             const { devtoolsFrontendUrl, webSocketDebuggerUrl } = target;
             if (devtoolsFrontendUrl) {
                 let temp = devtoolsFrontendUrl;
-                let bundledOnDevice = false;
+                let bundledOnHjhDevice = false;
                 const ws = this.patchWebSocketDebuggerUrl(host, serial, socket, webSocketDebuggerUrl);
 
                 if (!temp.startsWith('http')) {
-                    bundledOnDevice = true;
+                    bundledOnHjhDevice = true;
                     temp = `${proto}${fakeHost}${temp}`;
                 }
                 const url = new URL(temp);
@@ -300,7 +300,7 @@ export class AdbUtils {
                 }
                 urlString += `ws=${ws}`;
 
-                if (bundledOnDevice) {
+                if (bundledOnHjhDevice) {
                     urlString = urlString.substr(`${proto}${fakeHost}`.length);
                 }
                 target.devtoolsFrontendUrl = urlString;
@@ -313,7 +313,7 @@ export class AdbUtils {
     public static async getRemoteDevtoolsInfo(host: string, serial: string): Promise<DevtoolsInfo> {
         const list = await this.getDevtoolsRemoteList(serial);
         if (!list || !list.length) {
-            const deviceName = await this.getDeviceName(serial);
+            const deviceName = await this.getHjhDeviceName(serial);
             return {
                 deviceName,
                 deviceSerial: serial,
@@ -349,7 +349,7 @@ export class AdbUtils {
             });
             all.push(p);
         });
-        all.unshift(this.getDeviceName(serial));
+        all.unshift(this.getHjhDeviceName(serial));
         const result = await Promise.all(all);
         const deviceName: string = result.shift() as string;
         const browsers: RemoteBrowserInfo[] = result as RemoteBrowserInfo[];
@@ -360,7 +360,7 @@ export class AdbUtils {
         };
     }
 
-    public static async getDeviceName(serial: string): Promise<string> {
+    public static async getHjhDeviceName(serial: string): Promise<string> {
         const client = AdbExtended.createClient();
         const props = await client.getProperties(serial);
         return props['ro.product.model'] || 'Unknown device';

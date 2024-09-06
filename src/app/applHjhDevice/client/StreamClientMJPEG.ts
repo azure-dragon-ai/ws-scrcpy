@@ -40,7 +40,7 @@ export class StreamClientMJPEG extends StreamClient<ParamsStream> {
         return StreamClientMJPEG.createPlayer(udid, playerName);
     }
 
-    public getDeviceName(): string {
+    public getHjhDeviceName(): string {
         return this.deviceName;
     }
 

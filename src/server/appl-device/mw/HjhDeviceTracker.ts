@@ -2,15 +2,15 @@ import WS from 'ws';
 import { Mw, RequestParameters } from '../../mw/Mw';
 import { ControlCenterCommand } from '../../../common/ControlCenterCommand';
 import { ACTION } from '../../../common/Action';
-import { DeviceTrackerEvent } from '../../../types/DeviceTrackerEvent';
-import { DeviceTrackerEventList } from '../../../types/DeviceTrackerEventList';
+import { HjhDeviceTrackerEvent } from '../../../types/HjhDeviceTrackerEvent';
+import { HjhDeviceTrackerEventList } from '../../../types/HjhDeviceTrackerEventList';
 import { ControlCenter } from '../services/ControlCenter';
-import ApplDeviceDescriptor from '../../../types/ApplDeviceDescriptor';
+import ApplHjhDeviceDescriptor from '../../../types/ApplHjhDeviceDescriptor';
 import { Multiplexer } from '../../../packages/multiplexer/Multiplexer';
 import { ChannelCode } from '../../../common/ChannelCode';
 
-export class DeviceTracker extends Mw {
-    public static readonly TAG = 'IosDeviceTracker';
+export class HjhDeviceTracker extends Mw {
+    public static readonly TAG = 'IosHjhDeviceTracker';
     public static readonly type = 'ios';
     private icc: ControlCenter = ControlCenter.getInstance();
     private readonly id: string;
@@ -19,14 +19,14 @@ export class DeviceTracker extends Mw {
         if (code !== ChannelCode.ATRC) {
             return;
         }
-        return new DeviceTracker(ws);
+        return new HjhDeviceTracker(ws);
     }
 
-    public static processRequest(ws: WS, params: RequestParameters): DeviceTracker | undefined {
+    public static processRequest(ws: WS, params: RequestParameters): HjhDeviceTracker | undefined {
         if (params.action !== ACTION.APPL_DEVICE_LIST) {
             return;
         }
-        return new DeviceTracker(ws);
+        return new HjhDeviceTracker(ws);
     }
 
     constructor(ws: WS | Multiplexer) {
@@ -36,16 +36,16 @@ export class DeviceTracker extends Mw {
         this.icc
             .init()
             .then(() => {
-                this.icc.on('device', this.sendDeviceMessage);
-                this.buildAndSendMessage(this.icc.getDevices());
+                this.icc.on('device', this.sendHjhDeviceMessage);
+                this.buildAndSendMessage(this.icc.getHjhDevices());
             })
             .catch((error: Error) => {
-                console.error(`[${DeviceTracker.TAG}] Error: ${error.message}`);
+                console.error(`[${HjhDeviceTracker.TAG}] Error: ${error.message}`);
             });
     }
 
-    private sendDeviceMessage = (device: ApplDeviceDescriptor): void => {
-        const data: DeviceTrackerEvent<ApplDeviceDescriptor> = {
+    private sendHjhDeviceMessage = (device: ApplHjhDeviceDescriptor): void => {
+        const data: HjhDeviceTrackerEvent<ApplHjhDeviceDescriptor> = {
             device,
             id: this.id,
             name: this.icc.getName(),
@@ -57,8 +57,8 @@ export class DeviceTracker extends Mw {
         });
     };
 
-    private buildAndSendMessage = (list: ApplDeviceDescriptor[]): void => {
-        const data: DeviceTrackerEventList<ApplDeviceDescriptor> = {
+    private buildAndSendMessage = (list: ApplHjhDeviceDescriptor[]): void => {
+        const data: HjhDeviceTrackerEventList<ApplHjhDeviceDescriptor> = {
             list,
             id: this.id,
             name: this.icc.getName(),
@@ -75,16 +75,16 @@ export class DeviceTracker extends Mw {
         try {
             command = ControlCenterCommand.fromJSON(event.data.toString());
         } catch (error: any) {
-            console.error(`[${DeviceTracker.TAG}], Received message: ${event.data}. Error: ${error.message}`);
+            console.error(`[${HjhDeviceTracker.TAG}], Received message: ${event.data}. Error: ${error.message}`);
             return;
         }
         this.icc.runCommand(command).catch((error) => {
-            console.error(`[${DeviceTracker.TAG}], Received message: ${event.data}. Error: ${error.message}`);
+            console.error(`[${HjhDeviceTracker.TAG}], Received message: ${event.data}. Error: ${error.message}`);
         });
     }
 
     public release(): void {
         super.release();
-        this.icc.off('device', this.sendDeviceMessage);
+        this.icc.off('device', this.sendHjhDeviceMessage);
     }
 }

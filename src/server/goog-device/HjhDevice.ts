@@ -4,7 +4,7 @@ import PushTransfer from '@dead50f7/adbkit/lib/adb/sync/pushtransfer';
 import { spawn } from 'child_process';
 import { NetInterface } from '../../types/NetInterface';
 import { TypedEmitter } from '../../common/TypedEmitter';
-import GoogDeviceDescriptor from '../../types/GoogDeviceDescriptor';
+import GoogHjhDeviceDescriptor from '../../types/GoogHjhDeviceDescriptor';
 import { ScrcpyServer } from './ScrcpyServer';
 import { Properties } from './Properties';
 import Timeout = NodeJS.Timeout;
@@ -17,11 +17,11 @@ enum PID_DETECTION {
     LS_PROC,
 }
 
-export interface DeviceEvents {
-    update: Device;
+export interface HjhDeviceEvents {
+    update: HjhDevice;
 }
 
-export class Device extends TypedEmitter<DeviceEvents> {
+export class HjhDevice extends TypedEmitter<HjhDeviceEvents> {
     private static readonly INITIAL_UPDATE_TIMEOUT = 1500;
     private static readonly MAX_UPDATES_COUNT = 7;
     private connected = true;
@@ -30,12 +30,12 @@ export class Device extends TypedEmitter<DeviceEvents> {
     private properties?: Record<string, string>;
     private spawnServer = true;
     private updateTimeoutId?: Timeout;
-    private updateTimeout = Device.INITIAL_UPDATE_TIMEOUT;
+    private updateTimeout = HjhDevice.INITIAL_UPDATE_TIMEOUT;
     private updateCount = 0;
     private throttleTimeoutId?: Timeout;
     private lastEmit = 0;
     public readonly TAG: string;
-    public readonly descriptor: GoogDeviceDescriptor;
+    public readonly descriptor: GoogHjhDeviceDescriptor;
 
     constructor(public readonly udid: string, state: string) {
         super();
@@ -66,7 +66,7 @@ export class Device extends TypedEmitter<DeviceEvents> {
         }
         this.descriptor.state = state;
         this.emitUpdate();
-        this.fetchDeviceInfo();
+        this.fetchHjhDeviceInfo();
     }
 
     public isConnected(): boolean {
@@ -301,22 +301,22 @@ export class Device extends TypedEmitter<DeviceEvents> {
         if (this.updateTimeoutId) {
             return;
         }
-        if (++this.updateCount > Device.MAX_UPDATES_COUNT) {
+        if (++this.updateCount > HjhDevice.MAX_UPDATES_COUNT) {
             console.error(this.TAG, 'The maximum number of attempts to fetch device info has been reached.');
             return;
         }
-        this.updateTimeoutId = setTimeout(this.fetchDeviceInfo, this.updateTimeout);
+        this.updateTimeoutId = setTimeout(this.fetchHjhDeviceInfo, this.updateTimeout);
         this.updateTimeout *= 2;
     }
 
-    private fetchDeviceInfo = (): void => {
+    private fetchHjhDeviceInfo = (): void => {
         if (this.connected) {
             const propsPromise = this.getProperties().then((props) => {
                 if (!props) {
                     return false;
                 }
                 let changed = false;
-                Properties.forEach((propName: keyof GoogDeviceDescriptor) => {
+                Properties.forEach((propName: keyof GoogHjhDeviceDescriptor) => {
                     if (props[propName] !== this.descriptor[propName]) {
                         changed = true;
                         (this.descriptor[propName] as any) = props[propName];
@@ -345,7 +345,7 @@ export class Device extends TypedEmitter<DeviceEvents> {
                     const failedCount = results.filter((result) => !result).length;
                     if (!failedCount) {
                         this.updateCount = 0;
-                        this.updateTimeout = Device.INITIAL_UPDATE_TIMEOUT;
+                        this.updateTimeout = HjhDevice.INITIAL_UPDATE_TIMEOUT;
                     } else {
                         this.scheduleInfoUpdate();
                     }
@@ -356,7 +356,7 @@ export class Device extends TypedEmitter<DeviceEvents> {
                 });
         } else {
             this.updateCount = 0;
-            this.updateTimeout = Device.INITIAL_UPDATE_TIMEOUT;
+            this.updateTimeout = HjhDevice.INITIAL_UPDATE_TIMEOUT;
             this.updateTimeoutId = undefined;
             this.emitUpdate();
         }

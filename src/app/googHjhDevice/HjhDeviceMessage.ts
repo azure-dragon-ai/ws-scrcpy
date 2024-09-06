@@ -1,6 +1,6 @@
 import Util from '../Util';
 
-export default class DeviceMessage {
+export default class HjhDeviceMessage {
     public static TYPE_CLIPBOARD = 0;
     public static TYPE_PUSH_RESPONSE = 101;
 
@@ -8,15 +8,15 @@ export default class DeviceMessage {
 
     constructor(public readonly type: number, protected readonly buffer: Buffer) {}
 
-    public static fromBuffer(data: ArrayBuffer): DeviceMessage {
+    public static fromBuffer(data: ArrayBuffer): HjhDeviceMessage {
         const magicSize = this.MAGIC_BYTES_MESSAGE.length;
         const buffer = Buffer.from(data, magicSize, data.byteLength - magicSize);
         const type = buffer.readUInt8(0);
-        return new DeviceMessage(type, buffer);
+        return new HjhDeviceMessage(type, buffer);
     }
 
     public getText(): string {
-        if (this.type !== DeviceMessage.TYPE_CLIPBOARD) {
+        if (this.type !== HjhDeviceMessage.TYPE_CLIPBOARD) {
             throw TypeError(`Wrong message type: ${this.type}`);
         }
         if (!this.buffer) {
@@ -30,7 +30,7 @@ export default class DeviceMessage {
     }
 
     public getPushStats(): { id: number; code: number } {
-        if (this.type !== DeviceMessage.TYPE_PUSH_RESPONSE) {
+        if (this.type !== HjhDeviceMessage.TYPE_PUSH_RESPONSE) {
             throw TypeError(`Wrong message type: ${this.type}`);
         }
         if (!this.buffer) {
@@ -43,11 +43,11 @@ export default class DeviceMessage {
 
     public toString(): string {
         let desc: string;
-        if (this.type === DeviceMessage.TYPE_CLIPBOARD && this.buffer) {
+        if (this.type === HjhDeviceMessage.TYPE_CLIPBOARD && this.buffer) {
             desc = `, text=[${this.getText()}]`;
         } else {
             desc = this.buffer ? `, buffer=[${this.buffer.join(',')}]` : '';
         }
-        return `DeviceMessage{type=${this.type}${desc}}`;
+        return `HjhDeviceMessage{type=${this.type}${desc}}`;
     }
 }

@@ -1,6 +1,6 @@
 import { FilePushStream } from './FilePushStream';
 import { StreamReceiverScrcpy } from '../client/StreamReceiverScrcpy';
-import DeviceMessage from '../DeviceMessage';
+import HjhDeviceMessage from '../HjhDeviceMessage';
 import { CommandControlMessage, FilePushState } from '../../controlMessage/CommandControlMessage';
 
 const ALLOWED_TYPES = ['application/vnd.android.package-archive'];
@@ -9,7 +9,7 @@ const ALLOWED_NAME_RE = /\.apk$/i;
 export class ScrcpyFilePushStream extends FilePushStream {
     constructor(private readonly streamReceiver: StreamReceiverScrcpy) {
         super();
-        streamReceiver.on('deviceMessage', this.onDeviceMessage);
+        streamReceiver.on('deviceMessage', this.onHjhDeviceMessage);
     }
     public hasConnection(): boolean {
         return this.streamReceiver.hasConnection();
@@ -41,11 +41,11 @@ export class ScrcpyFilePushStream extends FilePushStream {
     }
 
     public release(): void {
-        this.streamReceiver.off('deviceMessage', this.onDeviceMessage);
+        this.streamReceiver.off('deviceMessage', this.onHjhDeviceMessage);
     }
 
-    onDeviceMessage = (ev: DeviceMessage): void => {
-        if (ev.type !== DeviceMessage.TYPE_PUSH_RESPONSE) {
+    onHjhDeviceMessage = (ev: HjhDeviceMessage): void => {
+        if (ev.type !== HjhDeviceMessage.TYPE_PUSH_RESPONSE) {
             return;
         }
         const stats = ev.getPushStats();

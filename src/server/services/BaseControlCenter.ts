@@ -8,6 +8,6 @@ export interface ControlCenterEvents<T> {
 export abstract class BaseControlCenter<T> extends TypedEmitter<ControlCenterEvents<T>> {
     abstract getId(): string;
     abstract getName(): string;
-    abstract getDevices(): T[];
+    abstract getHjhDevices(): T[];
     abstract runCommand(command: ControlCenterCommand): Promise<string | void>;
 }

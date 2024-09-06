@@ -1,5 +1,5 @@
 import '../style/app.css';
-import { StreamClientScrcpy } from './googDevice/client/StreamClientScrcpy';
+import { StreamClientScrcpy } from './googHjhDevice/client/StreamClientScrcpy';
 import { HostTracker } from './client/HostTracker';
 import { Tool } from './client/Tool';
 
@@ -35,12 +35,12 @@ window.onload = async function (): Promise<void> {
 
     /// #if INCLUDE_APPL
     {
-        const { DeviceTracker } = await import('./applDevice/client/DeviceTracker');
+        const { HjhDeviceTracker } = await import('./applHjhDevice/client/HjhDeviceTracker');
 
         /// #if USE_QVH_SERVER
-        const { StreamClientQVHack } = await import('./applDevice/client/StreamClientQVHack');
+        const { StreamClientQVHack } = await import('./applHjhDevice/client/StreamClientQVHack');
 
-        DeviceTracker.registerTool(StreamClientQVHack);
+        HjhDeviceTracker.registerTool(StreamClientQVHack);
 
         /// #if USE_WEBCODECS
         const { WebCodecsPlayer } = await import('./player/WebCodecsPlayer');
@@ -59,8 +59,8 @@ window.onload = async function (): Promise<void> {
         /// #endif
 
         /// #if USE_WDA_MJPEG_SERVER
-        const { StreamClientMJPEG } = await import('./applDevice/client/StreamClientMJPEG');
-        DeviceTracker.registerTool(StreamClientMJPEG);
+        const { StreamClientMJPEG } = await import('./applHjhDevice/client/StreamClientMJPEG');
+        HjhDeviceTracker.registerTool(StreamClientMJPEG);
 
         const { MjpegPlayer } = await import('./player/MjpegPlayer');
         StreamClientMJPEG.registerPlayer(MjpegPlayer);
@@ -76,7 +76,7 @@ window.onload = async function (): Promise<void> {
     const tools: Tool[] = [];
 
     /// #if INCLUDE_ADB_SHELL
-    const { ShellClient } = await import('./googDevice/client/ShellClient');
+    const { ShellClient } = await import('./googHjhDevice/client/ShellClient');
     if (action === ShellClient.ACTION && typeof parsedQuery.get('udid') === 'string') {
         ShellClient.start(ShellClient.parseParameters(parsedQuery));
         return;
@@ -85,7 +85,7 @@ window.onload = async function (): Promise<void> {
     /// #endif
 
     /// #if INCLUDE_DEV_TOOLS
-    const { DevtoolsClient } = await import('./googDevice/client/DevtoolsClient');
+    const { DevtoolsClient } = await import('./googHjhDevice/client/DevtoolsClient');
     if (action === DevtoolsClient.ACTION) {
         DevtoolsClient.start(DevtoolsClient.parseParameters(parsedQuery));
         return;
@@ -94,7 +94,7 @@ window.onload = async function (): Promise<void> {
     /// #endif
 
     /// #if INCLUDE_FILE_LISTING
-    const { FileListingClient } = await import('./googDevice/client/FileListingClient');
+    const { FileListingClient } = await import('./googHjhDevice/client/FileListingClient');
     if (action === FileListingClient.ACTION) {
         FileListingClient.start(FileListingClient.parseParameters(parsedQuery));
         return;
@@ -103,9 +103,9 @@ window.onload = async function (): Promise<void> {
     /// #endif
 
     if (tools.length) {
-        const { DeviceTracker } = await import('./googDevice/client/DeviceTracker');
+        const { HjhDeviceTracker } = await import('./googHjhDevice/client/HjhDeviceTracker');
         tools.forEach((tool) => {
-            DeviceTracker.registerTool(tool);
+            HjhDeviceTracker.registerTool(tool);
         });
     }
     HostTracker.start();

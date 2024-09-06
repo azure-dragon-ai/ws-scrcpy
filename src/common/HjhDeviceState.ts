@@ -1,4 +1,4 @@
-export enum DeviceState {
+export enum HjhDeviceState {
     DEVICE = 'device',
     DISCONNECTED = 'disconnected',
 
